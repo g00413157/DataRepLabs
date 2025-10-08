@@ -6,6 +6,8 @@ import './App.css' // Import the CSS file for styling
 import Content from './components/Content' // Import the Content component
 import Header from './components/Header' // Import the Header component
 import Footer from './components/footer.jsx' // Import the Footer component
+import Read from './components/Read.jsx'
+import Create from './components/Create.jsx'
 import { BrowserRouter } from 'react-router-dom' // Import BrowserRouter for routing
 import { Routes } from 'react-router-dom' // Import Routes to define different routes
 import { Route } from 'react-router-dom' // Import Route to define the path for each component
@@ -37,8 +39,8 @@ function App() {
         {/* Define Routes for different pages */}
         <Routes>
           <Route path="/" element={<Content />} /> {/* Home Route */}
-          <Route path="/read" element={<Header />} /> {/* Read Route */}
-          <Route path="/create" element={<Footer />} /> {/* Create Route */}
+          <Route path="/read" element={<Read />} /> {/* Read Route */}
+          <Route path="/create" element={<Create />} /> {/* Create Route */}
         </Routes>
       </BrowserRouter>
     </>
