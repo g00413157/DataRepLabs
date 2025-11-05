@@ -11,7 +11,7 @@ export default function Read() {
   useEffect(
       ()=>{
         //do some http client work
-          axios.get('https://data-rep-mern-application.github.io/dataserver/movies.json')
+          axios.get('http://localhost:3000/api/movies')
           .then((response)=>{
             console.log(response.data);
             setMovie(response.data.myArray);

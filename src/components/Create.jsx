@@ -1,18 +1,33 @@
 // Import the useState hook from React to manage local component state
 import { useState } from "react";
+import axios from "axios";
 
 // Define a functional React component named 'Create'
 function Create() {
   // Declare state variables for the movie's title, year, and poster URL
-  const [title, setTitle] = useState('');     // Initially empty string
-  const [year, setYear] = useState('');
-  const [poster, setPoster] = useState('');
+  const [title, setTitle] = useState('');     // Initially empty string for title
+  const [year, setYear] = useState('');       // Initially empty string for year
+  const [poster, setPoster] = useState('');   // Initially empty string for poster URL
 
   // Function to handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior (page reload)
-    console.log(title, year, poster); // Log the current input values to the console
-  }
+    e.preventDefault(); // Prevents the default form submission behavior
+    
+    // Log the current state values to the console
+    console.log(`Title: ${title}, Year: ${year}, Poster: ${poster}`);
+    
+    // Create an object with the movie data
+    const movie = {
+      title: title,
+      year: year,
+      poster: poster
+    };
+    
+    // Send a POST request to the backend API to add a new movie
+    axios.post('http://localhost:3000/api/movies', movie)
+      .then((res) => console.log(res.data))  // Log the response data from the server
+      .catch((err) => console.log(err.data)); // Log any errors if the request fails
+  };
 
   // Return the component's UI
   return (
@@ -29,7 +44,7 @@ function Create() {
             type="text"
             className="form-control"
             value={title} // Controlled input bound to title state
-            onChange={(e) => { setTitle(e.target.value) }} // Update state on input change
+            onChange={(e) => { setTitle(e.target.value) }} // Update state when input changes
           />
           <br />
         </div>
@@ -41,7 +56,7 @@ function Create() {
             type="text"
             className="form-control"
             value={year} // Controlled input bound to year state
-            onChange={(e) => { setYear(e.target.value) }} // Update state on input change
+            onChange={(e) => { setYear(e.target.value) }} // Update state when input changes
           />
           <br />
         </div>
@@ -53,7 +68,7 @@ function Create() {
             type="text"
             className="form-control"
             value={poster} // Controlled input bound to poster state
-            onChange={(e) => { setPoster(e.target.value) }} // Update state on input change
+            onChange={(e) => { setPoster(e.target.value) }} // Update state when input changes
           />
           <br />
         </div>
