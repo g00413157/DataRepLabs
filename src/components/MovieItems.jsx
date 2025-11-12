@@ -1,28 +1,35 @@
+// Importing React's useEffect hook for side-effects and Bootstrap's Card component for UI
 import { useEffect } from "react";
 import Card from 'react-bootstrap/Card';
 
+// MovieItem component receives props as input
 const MovieItem = (props) => {
-  // useEffect runs when 'mymovie' prop changes
+  
+  // useEffect hook runs when the 'mymovie' prop changes
   useEffect(() => {
-    // Only log if 'mymovie' prop is defined to avoid errors
-    if (props.mymovie) {
-      console.log("Movie Item:", props.mymovie);
+    // Check if the 'mymovie' prop exists to avoid errors in case it's undefined
+    if (props.myMovie) {
+      // Log the movie details to the console for debugging when 'mymovie' changes
+      console.log("Movie Item:", props.myMovie);
     }
-  }, [props.mymovie]); // Dependency array to run effect on 'mymovie' changes
+  }, [props.mymovie]); // Dependency array ensures the effect runs only when 'mymovie' changes
 
-  // If 'mymovie' exists, render the movie details inside a Bootstrap Card
+  // Return the JSX that represents the component UI
   return (
     <div>
+      {/* Bootstrap Card component to display movie details */}
       <Card className="text-center">
+        
         {/* Movie title displayed in the Card header */}
-        <Card.Header>{props.mymovie.Title}</Card.Header>
+        <Card.Header>{props.mymovie.title}</Card.Header>
 
         <Card.Body>
           <blockquote className="blockquote mb-0">
-            {/* Movie poster image with alt text for accessibility */}
-            <img src={props.mymovie.Poster} alt={props.mymovie.Title} />
-            {/* Movie release year displayed in the footer */}
-            <footer>{props.mymovie.Year}</footer>
+            {/* Movie poster image, src attribute is set to the poster URL passed in the 'mymovie' prop */}
+            {/* 'alt' text is set to the movie title for accessibility */}
+            <img src={props.mymovie.poster} alt={props.mymovie.title} />
+            {/* Movie release year displayed in the Card footer */}
+            <footer>{props.mymovie.year}</footer>
           </blockquote>
         </Card.Body>
       </Card>
@@ -30,4 +37,5 @@ const MovieItem = (props) => {
   );
 }
 
+// Export the MovieItem component for use in other parts of the app
 export default MovieItem;

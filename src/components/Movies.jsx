@@ -7,7 +7,7 @@ const Movies = (props) => {
     // For each movie object, return a MovieItems component
     // Pass a unique key using movie.imdbID and pass the movie object as a prop called mymovie
     return props.myMovies.map((movie) => {
-        return <MovieItems key={movie.imdbID} mymovie={movie} />;
+        return <MovieItems key={movie._id} mymovie={movie} />;
     });
 };
 

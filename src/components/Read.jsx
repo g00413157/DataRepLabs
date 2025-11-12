@@ -14,7 +14,7 @@ export default function Read() {
           axios.get('http://localhost:3000/api/movies')
           .then((response)=>{
             console.log(response.data);
-            setMovie(response.data.myArray);
+            setMovie(response.data.MyArray);
           })
           .catch((error)=>{console.log(error)});//catches any errors 
 

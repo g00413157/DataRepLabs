@@ -30,52 +30,33 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Use body-parser middleware to parse JSON data from requests
 app.use(bodyParser.json());
 
-// Define a simple route to respond with "Hello World" when accessing the root URL
-app.get('/', (req, res) => {
-    res.send('Hello World'); // Respond with 'Hello World'
+// Import mongoose to interact with the MongoDB database
+import mongoose from 'mongoose';
+// Connect to the MongoDB database using the connection string (replace credentials as needed)
+mongoose.connect('mongodb+srv://admin:admin@datarepcluster.ofryorq.mongodb.net/?appName=DataRepCluster');
+
+// Define the movie schema for storing movie data in the MongoDB database
+const movieSchema = new mongoose.Schema({
+  title: String,  // Movie title
+  year: String,   // Release year of the movie
+  poster: String  // URL or path to the movie's poster image
 });
 
+// Create a model based on the movie schema, which allows us to interact with the database
+const movieModel = mongoose.model('Movie', movieSchema);
+
 // Define a route to serve the list of movies as a JSON response
-app.get('/api/movies', (req, res) => {
-    // Sample data representing an array of movie objects
-    const myMovies = [
-        {
-            "Title": "Avengers: Infinity War (server)",
-            "Year": "2018",
-            "imdbID": "tt4154756",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"
-        },
-        {
-            "Title": "Captain America: Civil War (server)",
-            "Year": "2016",
-            "imdbID": "tt3498820",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_SX300.jpg"
-        },
-        {
-            "Title": "World War Z (server)",
-            "Year": "2013",
-            "imdbID": "tt0816711",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BNDQ4YzFmNzktMmM5ZC00MDZjLTk1OTktNDE2ODE4YjM2MjJjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg"
-        }
-    ]
-    
-    // Send the movie data as a JSON response
-    res.json({ myArray: myMovies });
+app.get('/api/movies', async (req, res) => {
+  // Fetch all movies from the database
+  const movies = await movieModel.find({});
+  // Respond with the list of movies in a JSON format
+  res.json({ MyArray: movies });
 });
 
 // Start the server and listen on the specified port
 app.listen(port, () => {
-    // Log to the console that the server is running and provide the URL to access it
-    console.log(`Server is running on http://localhost:${port}`);
+  // Log to the console that the server is running and provide the URL to access it
+  console.log(`Server is running on http://localhost:${port}`);
 });
 
-// Define a POST route to handle adding a new movie (or any other POST request to the '/api/movies' endpoint)
-app.post('/api/movies', (req, res) => {
-    // Log the incoming request body (the movie data sent by the client)
-    console.log(req.body);
-    // Respond with a message confirming the POST request was received
-    res.send('POST request to movies Endpoint');
-});
+// Define a POST route to handle adding a new movie (or any other POST request to the '/ap
