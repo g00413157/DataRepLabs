@@ -53,10 +53,45 @@ app.get('/api/movies', async (req, res) => {
   res.json({ MyArray: movies });
 });
 
+// Define a route to fetch a single movie by its ID
+app.get('/api/movies/:id', async (req, res) => {
+    // Fetch the movie from the database by its ID
+    let movie = await movieModel.findById({ _id: req.params.id });
+    // Send the movie as a response
+    res.send(movie);
+});
+
+// Define a route to update an existing movie by its ID
+app.put('/api/movies/:id', async (req, res) => {
+    // Find the movie by its ID and update it with the new data from the request body
+    let movie = await movieModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    // Send the updated movie as the response
+    res.send(movie);
+});
+
 // Start the server and listen on the specified port
 app.listen(port, () => {
   // Log to the console that the server is running and provide the URL to access it
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-// Define a POST route to handle adding a new movie (or any other POST request to the '/ap
+// Define a POST route to handle adding a new movie
+app.post('/api/movies', async (req, res) => {
+  try {
+    // Create a new movie instance based on the request body data
+    const newMovie = new movieModel({
+      title: req.body.title,  // Title of the movie from the request body
+      year: req.body.year,    // Release year of the movie from the request body
+      poster: req.body.poster, // Poster image URL/path from the request body
+    });
+
+    // Save the new movie to the database
+    const savedMovie = await newMovie.save();
+
+    // Send back the saved movie as the response with a 201 status (created)
+    res.status(201).json(savedMovie);
+  } catch (error) {
+    // If an error occurs, send a 500 response with the error message
+    res.status(500).json({ message: 'Failed to add movie', error: error.message });
+  }
+});

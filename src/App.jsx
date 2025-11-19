@@ -14,6 +14,7 @@ import { Route } from 'react-router-dom' // Import Route to define the path for 
 import NavigationBar from './components/NavigationBar.jsx' // Import the NavigationBar component (though not used in the JSX)
 import 'bootstrap/dist/css/bootstrap.min.css' // Import Bootstrap CSS for styling
 import { Nav, Navbar, Container } from 'react-bootstrap' // Import Bootstrap components for navigation
+import Edit from './components/edit.jsx'
 
 // Input the Data you want to show into the App below
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path="/" element={<Content />} /> {/* Home Route */}
           <Route path="/read" element={<Read />} /> {/* Read Route */}
           <Route path="/create" element={<Create />} /> {/* Create Route */}
+          <Route path='/edit/:id' element={<Edit></Edit>}></Route>{/* Edit Route */}
         </Routes>
       </BrowserRouter>
     </>

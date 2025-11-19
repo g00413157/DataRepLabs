@@ -1,6 +1,7 @@
 // Importing React's useEffect hook for side-effects and Bootstrap's Card component for UI
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 
 // MovieItem component receives props as input
 const MovieItem = (props) => {
@@ -32,6 +33,7 @@ const MovieItem = (props) => {
             <footer>{props.mymovie.year}</footer>
           </blockquote>
         </Card.Body>
+        <Link to={"/edit/" + props.mymovie._id} className="btn btn-primary">Edit</Link>
       </Card>
     </div>
   );
