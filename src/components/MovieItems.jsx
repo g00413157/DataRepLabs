@@ -1,43 +1,76 @@
-// Importing React's useEffect hook for side-effects and Bootstrap's Card component for UI
+// Importing React's useEffect hook for handling side-effects in the component lifecycle
 import { useEffect } from 'react';
+
+// Importing Bootstrap's Card component to display movie information in a stylized card format
 import Card from 'react-bootstrap/Card';
+
+// Importing the Link component from React Router to enable navigation between routes
 import { Link } from 'react-router-dom';
 
-// MovieItem component receives props as input
+// Importing axios for making HTTP requests (used here for deleting a movie)
+import axios from 'axios';
+
+// Importing Button component from Bootstrap for styling the delete button
+import Button from 'react-bootstrap/Button';
+
+// MovieItem component receives props (movie data and reload function) from its parent component
 const MovieItem = (props) => {
-  
-  // useEffect hook runs when the 'mymovie' prop changes
+
+  // useEffect hook runs when the 'mymovie' prop changes to handle side effects
   useEffect(() => {
-    // Check if the 'mymovie' prop exists to avoid errors in case it's undefined
+    // Check if the 'mymovie' prop exists to prevent errors in case it's undefined or null
     if (props.myMovie) {
-      // Log the movie details to the console for debugging when 'mymovie' changes
+      // Log the movie details to the console for debugging purposes whenever the 'mymovie' prop changes
       console.log("Movie Item:", props.myMovie);
     }
-  }, [props.mymovie]); // Dependency array ensures the effect runs only when 'mymovie' changes
+  }, [props.mymovie]); // The effect runs only when the 'mymovie' prop changes
 
-  // Return the JSX that represents the component UI
+  // handleDelete function is triggered when the user clicks on the delete button
+  const handleDelete = (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    
+    // Perform a DELETE request to remove the movie from the server
+    axios.delete('http://localhost:3000/api/movie/' + props.mymovie._id)
+      .then(() => {
+        // Once the movie is deleted, call the Reload function passed down from the parent to refresh the movie list
+        props.Reload();
+      })
+      .catch((error) => {
+        // Log any errors encountered during the delete operation
+        console.error("Error deleting movie:", error);
+      });
+  };
+
+  // The component returns JSX that renders the UI of the movie item
   return (
     <div>
-      {/* Bootstrap Card component to display movie details */}
+      {/* Bootstrap Card component used to display movie details in a card */}
       <Card className="text-center">
         
-        {/* Movie title displayed in the Card header */}
+        {/* Card Header: Display the movie's title */}
         <Card.Header>{props.mymovie.title}</Card.Header>
 
         <Card.Body>
           <blockquote className="blockquote mb-0">
-            {/* Movie poster image, src attribute is set to the poster URL passed in the 'mymovie' prop */}
-            {/* 'alt' text is set to the movie title for accessibility */}
+            {/* Movie poster image is displayed, using the 'poster' property of the 'mymovie' prop */}
+            {/* Alt text is set to the movie title to improve accessibility */}
             <img src={props.mymovie.poster} alt={props.mymovie.title} />
-            {/* Movie release year displayed in the Card footer */}
+
+            {/* Card footer: Display the movie's release year */}
             <footer>{props.mymovie.year}</footer>
           </blockquote>
         </Card.Body>
+
+        {/* Link component: Navigates to an edit page where the movie details can be updated */}
         <Link to={"/edit/" + props.mymovie._id} className="btn btn-primary">Edit</Link>
+        
+        {/* Bootstrap Button component: Triggers the handleDelete function when clicked */}
+        <Button variant="danger" onClick={handleDelete}>Delete</Button>
+            
       </Card>
     </div>
   );
 }
 
-// Export the MovieItem component for use in other parts of the app
+// Export the MovieItem component so it can be used in other parts of the application
 export default MovieItem;
