@@ -111,6 +111,7 @@ app.delete('/api/movie/:id', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+// this allows any url to be input and the it will return the file 
 app.get('/{*any}', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'))
 })
