@@ -1,5 +1,5 @@
 import express from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 // CORS middleware
-app.use(cors());
+// app.use(cors());
 // Import 'path' module to work with file and directory paths
 import path from 'path';
 // Import 'fileURLToPath' to convert the URL to a file path 
