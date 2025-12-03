@@ -8,6 +8,22 @@ const port = 3000;
 
 // CORS middleware
 app.use(cors());
+// Import 'path' module to work with file and directory paths
+import path from 'path';
+// Import 'fileURLToPath' to convert the URL to a file path (required for ES modules)
+import { fileURLToPath } from 'url';
+
+// Convert the current module's URL (from 'import.meta.url') into a file path
+const __filename = fileURLToPath(import.meta.url);
+
+// Get the directory name of the current file (the parent directory of the current module)
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the Vite build output (located in the 'dist' directory)
+// This sets up a middleware to serve static assets like HTML, JS, and CSS files
+app.use(express.static(path.join(__dirname, '../dist')));
+
+
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,7 +31,7 @@ app.use(bodyParser.json());
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://admin:admin@datarepcluster.ofryorq.mongodb.net/?appName=DataRepCluster')
-  .then(() => console.log('Connected to MongoDB'))
+ 
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error.message);
     process.exit(1);
@@ -96,3 +112,6 @@ app.delete('/api/movie/:id', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+app.get('/{*any}', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'))
+})
