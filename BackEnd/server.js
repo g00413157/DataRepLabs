@@ -10,17 +10,16 @@ const port = 3000;
 app.use(cors());
 // Import 'path' module to work with file and directory paths
 import path from 'path';
-// Import 'fileURLToPath' to convert the URL to a file path (required for ES modules)
+// Import 'fileURLToPath' to convert the URL to a file path 
 import { fileURLToPath } from 'url';
 
-// Convert the current module's URL (from 'import.meta.url') into a file path
+// Convert the current module's URL  into a file path
 const __filename = fileURLToPath(import.meta.url);
 
-// Get the directory name of the current file (the parent directory of the current module)
+// Get the directory name of the current file 
 const __dirname = path.dirname(__filename);
 
 // Serve static files from the Vite build output (located in the 'dist' directory)
-// This sets up a middleware to serve static assets like HTML, JS, and CSS files
 app.use(express.static(path.join(__dirname, '../dist')));
 
 
